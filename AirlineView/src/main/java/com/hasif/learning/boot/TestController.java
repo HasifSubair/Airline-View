@@ -4,10 +4,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class TestClass {
+public class TestController {
 
-    @RequestMapping("/")
-    public String printMessage() {
-        return "\n\nHello World. Welcome to airline view\n\n";
-    }
+  @RequestMapping("/")
+  public String printMessage() {
+    return "\nHello World. \nWelcome to airline view\n";
+  }
 }
