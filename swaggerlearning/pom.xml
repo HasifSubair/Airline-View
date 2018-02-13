@@ -26,18 +26,19 @@
             </goals>
             <configuration>
               <!-- specify the swagger yaml -->
-              <inputSpec>${basedir}/src/main/resources/swagger.yaml</inputSpec>
+              <inputSpec>${project.parent.basedir}/AirlineView/src/main/resources/swagger.yaml
+              </inputSpec>
+              <output>${project.build.directory}</output>
 
               <!-- target to generate java client code -->
               <language>spring</language>
 
-              <!-- hint: if you want to generate java server code, e.g. based on Spring Boot,
-                   you can use the following target: <language>spring</language> -->
-
               <!-- pass any necessary config options -->
-              <!--<configOptions>-->
-              <!--<dateLibrary>joda</dateLibrary>-->
-              <!--</configOptions>-->
+              <configOptions>
+                <dateLibrary>joda</dateLibrary>
+                <apiPackage>com.hasif.learning.api</apiPackage>
+                <interfaceOnly>true</interfaceOnly>
+              </configOptions>
 
               <!-- override the default library to jersey2 -->
               <!--<library>jersey2</library>-->
@@ -45,33 +46,98 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>1.7</version>
+        <executions>
+          <execution>
+            <id>add-source</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>add-source</goal>
+            </goals>
+            <configuration>
+              <sources>
+                <source>${project.build.directory}</source>
+              </sources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 
+
+  <properties>
+    <java.version>1.7</java.version>
+    <maven.compiler.source>${java.version}</maven.compiler.source>
+    <maven.compiler.target>${java.version}</maven.compiler.target>
+    <springfox-version>2.5.0</springfox-version>
+  </properties>
   <dependencies>
-    <!-- Swagger 2 doc dependency -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-tomcat</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <!--SpringFox dependencies -->
     <dependency>
       <groupId>io.springfox</groupId>
       <artifactId>springfox-swagger2</artifactId>
-      <version>2.7.0</version>
+      <version>${springfox-version}</version>
     </dependency>
-
-    <!-- Swagger UI dependency -->
     <dependency>
       <groupId>io.springfox</groupId>
       <artifactId>springfox-swagger-ui</artifactId>
-      <version>2.7.0</version>
+      <version>${springfox-version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.fasterxml.jackson.datatype</groupId>
+      <artifactId>jackson-datatype-joda</artifactId>
     </dependency>
     <dependency>
       <groupId>joda-time</groupId>
       <artifactId>joda-time</artifactId>
-      <version>${jodatime-version}</version>
     </dependency>
-
+    <!-- Bean Validation API support -->
+    <dependency>
+      <groupId>javax.validation</groupId>
+      <artifactId>validation-api</artifactId>
+      <version>1.1.0.Final</version>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
 
-  <properties>
-    <jodatime-version>2.9.9</jodatime-version>
-  </properties>
+  <!--<dependencies>-->
+  <!--&lt;!&ndash; Swagger 2 doc dependency &ndash;&gt;-->
+  <!--<dependency>-->
+  <!--<groupId>io.springfox</groupId>-->
+  <!--<artifactId>springfox-swagger2</artifactId>-->
+  <!--<version>2.7.0</version>-->
+  <!--</dependency>-->
+
+  <!--&lt;!&ndash; Swagger UI dependency &ndash;&gt;-->
+  <!--<dependency>-->
+  <!--<groupId>io.springfox</groupId>-->
+  <!--<artifactId>springfox-swagger-ui</artifactId>-->
+  <!--<version>2.7.0</version>-->
+  <!--</dependency>-->
+  <!--<dependency>-->
+  <!--<groupId>joda-time</groupId>-->
+  <!--<artifactId>joda-time</artifactId>-->
+  <!--<version>${jodatime-version}</version>-->
+  <!--</dependency>-->
+
+  <!--</dependencies>-->
+
+  <!--<properties>-->
+  <!--<jodatime-version>2.9.9</jodatime-version>-->
+  <!--</properties>-->
 
 </project>
